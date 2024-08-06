@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataspanCatalog", "DataspanCatalog.csproj", "{714A0C0B-2885-497F-8DFE-236191C9C023}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dataspan.Api.Application", "..\Dataspan.Api.Application\Dataspan.Api.Application.csproj", "{A97EC86A-79CB-4D49-9914-D1D1B51ED4D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{714A0C0B-2885-497F-8DFE-236191C9C023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{714A0C0B-2885-497F-8DFE-236191C9C023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{714A0C0B-2885-497F-8DFE-236191C9C023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{714A0C0B-2885-497F-8DFE-236191C9C023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A97EC86A-79CB-4D49-9914-D1D1B51ED4D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A97EC86A-79CB-4D49-9914-D1D1B51ED4D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A97EC86A-79CB-4D49-9914-D1D1B51ED4D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A97EC86A-79CB-4D49-9914-D1D1B51ED4D2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC2B1C99-11DD-4617-ABFA-B01104375E81}
+	EndGlobalSection
+EndGlobal
