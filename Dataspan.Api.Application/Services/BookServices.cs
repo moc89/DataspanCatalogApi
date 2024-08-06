@@ -26,7 +26,7 @@ namespace Dataspan.Api.Application.Services
         }
         Task<BookDto> IBookServices.GetBook(int id)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Books.FirstOrDefault(a => a.Id == id));
         }
     }
 }

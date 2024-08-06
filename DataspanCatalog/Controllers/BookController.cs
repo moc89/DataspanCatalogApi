@@ -8,7 +8,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 namespace DataspanCatalog.Controllers
 {
  
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class BookController : ControllerBase
     {
