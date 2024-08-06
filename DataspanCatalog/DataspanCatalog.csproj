@@ -10,4 +10,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dataspan.Api.Application\Dataspan.Api.Application.csproj" />
+  </ItemGroup>
+
 </Project>

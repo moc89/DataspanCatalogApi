@@ -1,3 +1,4 @@
+using Dataspan.Api.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataspanCatalog.Controllers
@@ -7,9 +8,13 @@ namespace DataspanCatalog.Controllers
     public class AuthorController : ControllerBase
     {
         private static readonly List<Author> Authors = new List<Author>();
+        private readonly IAuthorServices _authorsServices;
+        private readonly ILogger _logger;
 
-        public AuthorController(ILogger<AuthorController> logger)
+        public AuthorController(ILogger<AuthorController> logger, IAuthorServices authorServices)
         {
+            _authorsServices = authorServices;
+            _logger = logger;   
         }
 
         [HttpGet]
