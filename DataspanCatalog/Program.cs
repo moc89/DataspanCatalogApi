@@ -1,5 +1,9 @@
 using Dataspan.Api.Application.Interfaces;
 using Dataspan.Api.Application.Services;
+using Dataspan.Api.Repository;
+using Dataspan.Api.Repository.Interfaces;
+using Dataspan.Api.Repository.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +16,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IAuthorServices, AuthorServices>();
 builder.Services.AddScoped<IBookServices, BookServices>();
+builder.Services.AddScoped<ICatalogRepo, CatalogRepo>();
 
+builder.Services.AddDbContext<CatalogContext>(options =>
+    options.UseInMemoryDatabase("CatalogDB"));
 
 var app = builder.Build();
 

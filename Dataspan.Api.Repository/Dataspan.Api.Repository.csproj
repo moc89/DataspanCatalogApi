@@ -1,20 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.32" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.32" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.32" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.32" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dataspan.Api.Application\Dataspan.Api.Application.csproj" />
     <ProjectReference Include="..\Dataspan.Api.Messaging\Dataspan.Api.Messaging.csproj" />
-    <ProjectReference Include="..\Dataspan.Api.Repository\Dataspan.Api.Repository.csproj" />
   </ItemGroup>
 
 </Project>

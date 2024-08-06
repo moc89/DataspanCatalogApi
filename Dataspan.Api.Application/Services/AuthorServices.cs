@@ -1,5 +1,7 @@
 ﻿using Dataspan.Api.Application.Dtos;
 using Dataspan.Api.Application.Interfaces;
+using Dataspan.Api.Messaging.MessagingObjects;
+using Dataspan.Api.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,15 @@ namespace Dataspan.Api.Application.Services
     public class AuthorServices : IAuthorServices
     {
         private static readonly List<AuthorDto> Authors = new List<AuthorDto>();
+
+        private readonly ICatalogRepo _catalogRepo;
+
+        public AuthorServices(ICatalogRepo catalogRepo)
+        {
+            _catalogRepo = catalogRepo;
+        }
+
+
         Task<AuthorDto> IAuthorServices.AddAuthor(AuthorDto author)
         {
             author.Id = Authors.Count + 1;
@@ -18,9 +29,11 @@ namespace Dataspan.Api.Application.Services
             return Task.FromResult(author);
         }
 
-        Task<List<AuthorDto>> IAuthorServices.GetAuthors()
+        async Task<GetAuthorResponse> IAuthorServices.GetAuthors()
         {
-            return Task.FromResult(Authors);
+            GetAuthorResponse response = await _catalogRepo.GetAuthors();
+
+            return response;
         }
 
         Task<AuthorDto> IAuthorServices.GetAuthor(int id)

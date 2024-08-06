@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dataspan.Api.Messaging\Dataspan.Api.Messaging.csproj" />
+    <ProjectReference Include="..\Dataspan.Api.Repository\Dataspan.Api.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

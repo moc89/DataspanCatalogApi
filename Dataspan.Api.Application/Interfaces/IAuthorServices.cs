@@ -1,4 +1,5 @@
 ﻿using Dataspan.Api.Application.Dtos;
+using Dataspan.Api.Messaging.MessagingObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Dataspan.Api.Application.Interfaces
 {
     public interface IAuthorServices
     {
-        Task<List<AuthorDto>> GetAuthors();
+        Task<GetAuthorResponse> GetAuthors();
         Task<AuthorDto> AddAuthor(AuthorDto author);
         Task<AuthorDto> GetAuthor(int id);   
     }

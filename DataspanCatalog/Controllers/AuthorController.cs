@@ -1,5 +1,6 @@
 using Dataspan.Api.Application.Dtos;
 using Dataspan.Api.Application.Interfaces;
+using Dataspan.Api.Messaging.MessagingObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataspanCatalog.Controllers
@@ -18,7 +19,7 @@ namespace DataspanCatalog.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AuthorDto>> Get()
+        public async Task<GetAuthorResponse> Get()
         {
             return await this._authorServices.GetAuthors();
         }
