@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Dataspan.Api.Messaging.MessagingObjects
 {
-    public class GetAuthorsResponse: Response
+    public class GetAuthorResponse: Response
     {
-        public List<Author> authors { get; set; }
+        public Author author { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Dataspan.Api.Application.Dtos;
 using Dataspan.Api.Application.Interfaces;
+using Dataspan.Api.Messaging.Entities;
 using Dataspan.Api.Messaging.MessagingObjects;
 using Dataspan.Api.Repository.Interfaces;
 using System;
@@ -12,7 +13,7 @@ namespace Dataspan.Api.Application.Services
 {
     public class AuthorServices : IAuthorServices
     {
-        private static readonly List<AuthorDto> Authors = new List<AuthorDto>();
+        private static readonly List<Author> Authors = new List<Author>();
 
         private readonly ICatalogRepo _catalogRepo;
 
@@ -21,24 +22,36 @@ namespace Dataspan.Api.Application.Services
             _catalogRepo = catalogRepo;
         }
 
-
-        Task<AuthorDto> IAuthorServices.AddAuthor(AuthorDto author)
+        async Task<GetAuthorsResponse> IAuthorServices.GetAuthors()
         {
-            author.Id = Authors.Count + 1;
-            Authors.Add(author);
-            return Task.FromResult(author);
-        }
-
-        async Task<GetAuthorResponse> IAuthorServices.GetAuthors()
-        {
-            GetAuthorResponse response = await _catalogRepo.GetAuthors();
+            GetAuthorsResponse response = await _catalogRepo.GetAuthors();
 
             return response;
         }
 
-        Task<AuthorDto> IAuthorServices.GetAuthor(int id)
+        async Task<Response> IAuthorServices.AddAuthor(AuthorDto author)
         {
-            return Task.FromResult(Authors.FirstOrDefault(a => a.Id == id));
+            Author newAuthor = new Author
+            {
+                Name = author.Name,
+                Surname = author.Surname,
+                BirthYear = author.BirthYear
+            };
+            Response response = await _catalogRepo.CreateAuthor(newAuthor);
+
+            return response;
+        }
+
+        async Task<GetAuthorResponse> IAuthorServices.GetAuthor(int id)
+        {
+            return await _catalogRepo.GetAuthor(id);
+
+        }
+
+        async Task<Response> IAuthorServices.DeleteAuthor(int id)
+        {
+            return await _catalogRepo.DeleteAuthor(id);
+
         }
     }
 }

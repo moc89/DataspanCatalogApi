@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataspanCatalog", "DataspanCatalog.csproj", "{714A0C0B-2885-497F-8DFE-236191C9C023}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dataspan.Api", "Dataspan.Api.csproj", "{714A0C0B-2885-497F-8DFE-236191C9C023}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dataspan.Api.Application", "..\Dataspan.Api.Application\Dataspan.Api.Application.csproj", "{A97EC86A-79CB-4D49-9914-D1D1B51ED4D2}"
 EndProject

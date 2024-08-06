@@ -1,5 +1,6 @@
 using Dataspan.Api.Application.Dtos;
 using Dataspan.Api.Application.Interfaces;
+using Dataspan.Api.Messaging.Entities;
 using Dataspan.Api.Messaging.MessagingObjects;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ namespace DataspanCatalog.Controllers
         }
 
         [HttpGet]
-        public async Task<GetAuthorResponse> Get()
+        public async Task<GetAuthorsResponse> Get()
         {
             return await this._authorServices.GetAuthors();
         }
@@ -27,14 +28,21 @@ namespace DataspanCatalog.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] AuthorDto author)
         {
-            AuthorDto result = await this._authorServices.AddAuthor(author);
-            return CreatedAtAction(nameof(Get), new { id = author.Id }, author);
+            Response result = await this._authorServices.AddAuthor(author);
+            return CreatedAtAction(nameof(Get), result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AuthorDto>> Get(int id)
+        public async Task<GetAuthorResponse> Get(int id)
         {
             return await this._authorServices.GetAuthor(id);
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<Response> Delete(int id)
+        {
+            return await this._authorServices.DeleteAuthor(id);
         }
     }
 }

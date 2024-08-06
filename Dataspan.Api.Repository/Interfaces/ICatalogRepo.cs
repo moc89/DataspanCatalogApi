@@ -11,8 +11,8 @@ namespace Dataspan.Api.Repository.Interfaces
     public interface ICatalogRepo
     {
         Task<Response> CreateAuthor(Author author);
-        Task<GetAuthorResponse> GetAuthors();
+        Task<GetAuthorsResponse> GetAuthors();
         Task<Response> DeleteAuthor(int id);
-        Task<Response> GetAuthor(int authorId);
+        Task<GetAuthorResponse> GetAuthor(int authorId);
     }
 }

@@ -12,8 +12,6 @@ namespace Dataspan.Api.Repository.Repositories
 {
     public class CatalogRepo: ICatalogRepo
     {
-        private static readonly List<Author> Authors = new List<Author>();
-
         private readonly CatalogContext _context;
         public CatalogRepo(CatalogContext context)
         {
@@ -38,19 +36,30 @@ namespace Dataspan.Api.Repository.Repositories
             return response;
         }
 
-        public Task<Response> DeleteAuthor(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Response> GetAuthor(int authorId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<GetAuthorResponse> GetAuthors()
+        public async Task<GetAuthorResponse> GetAuthor(int authorId)
         {
             GetAuthorResponse response = new GetAuthorResponse();
+
+            try
+            {
+                var query = await _context.Authors.FirstOrDefaultAsync(e => e.Id == authorId);
+
+                response.author = query;
+            }
+            catch (System.Exception ex)
+            {
+                // TODO: Error Log DB will be implemented.
+                response.ErrorCode = 3;
+                response.AdditionalMessage = ex.Message;
+                response.Status = 0;
+            }
+
+            return response;
+        }
+
+        public async Task<GetAuthorsResponse> GetAuthors()
+        {
+            GetAuthorsResponse response = new GetAuthorsResponse();
 
             try
             {
@@ -68,5 +77,26 @@ namespace Dataspan.Api.Repository.Repositories
 
             return response;
         }
+
+        public async Task<Response> DeleteAuthor(int id)
+        {
+            if (id <= 0)
+            {
+                return new Response() { AdditionalMessage = "Author Id cannot be negative", ErrorCode = 101 };
+            }
+
+            Author author = await _context.Authors.FirstOrDefaultAsync(e => e.Id == id);
+
+            if (author == null)
+            {
+                return new Response() { AdditionalMessage = "Author not found", ErrorCode = 102 };
+            }
+
+            _context.Remove(author);
+            await _context.SaveChangesAsync();
+
+            return new Response();
+        }
+
     }
 }
