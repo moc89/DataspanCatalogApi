@@ -34,8 +34,6 @@ namespace DataspanCatalog.Controllers
         public async Task<ActionResult<AuthorDto>> Get(int id)
         {
             return await this._authorServices.GetAuthor(id);
-
         }
-
     }
 }
