@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dataspan.Api.Application.Dtos
 {
-    internal class AuthorDto
+    public class AuthorDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
