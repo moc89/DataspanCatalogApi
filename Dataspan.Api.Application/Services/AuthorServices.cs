@@ -22,5 +22,10 @@ namespace Dataspan.Api.Application.Services
         {
             return Task.FromResult(Authors);
         }
+
+        Task<AuthorDto> IAuthorServices.GetAuthor(int id)
+        {
+            return Task.FromResult(Authors.FirstOrDefault(a => a.Id == id));
+        }
     }
 }

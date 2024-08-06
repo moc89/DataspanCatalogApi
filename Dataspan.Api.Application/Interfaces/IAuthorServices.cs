@@ -11,5 +11,6 @@ namespace Dataspan.Api.Application.Interfaces
     {
         Task<List<AuthorDto>> GetAuthors();
         Task<AuthorDto> AddAuthor(AuthorDto author);
+        Task<AuthorDto> GetAuthor(int id);   
     }
 }

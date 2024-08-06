@@ -29,5 +29,13 @@ namespace DataspanCatalog.Controllers
             AuthorDto result = await this._authorServices.AddAuthor(author);
             return CreatedAtAction(nameof(Get), new { id = author.Id }, author);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AuthorDto>> Get(int id)
+        {
+            return await this._authorServices.GetAuthor(id);
+
+        }
+
     }
 }
