@@ -48,5 +48,12 @@ namespace DataspanCatalog.Controllers
         {
             return await this._bookServices.DeleteBook(id);
         }
+
+        [HttpPut("{id}")]
+        public async Task<Response> Update(int id, [FromBody] BookDto book)
+        {
+            return await this._bookServices.UpdateBook(id, book);
+        }
+        
     }
 }

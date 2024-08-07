@@ -14,5 +14,7 @@ namespace Dataspan.Api.Application.Interfaces
         Task<Response> AddBook(BookDto book);
         Task<GetBookResponse> GetBook(int id);
         Task<Response> DeleteBook(int id);
+        Task<Response> UpdateBook(int id, BookDto book);
+        
     }
 }

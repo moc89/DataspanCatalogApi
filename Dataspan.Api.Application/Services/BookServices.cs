@@ -46,5 +46,18 @@ namespace Dataspan.Api.Application.Services
         {
             return await _catalogRepo.DeleteBook(id);
         }
+
+        async Task<Response> IBookServices.UpdateBook(int id, BookDto book)
+        {
+            Book updatedBook = new Book
+            {
+                Title = book.Title,
+                Publisher = book.Publisher,
+                PublishedDate = book.PublishedDate,
+                Edition = book.Edition,
+                BookAuthors = book.AuthorIds.Select(x => new BookAuthor { AuthorId = x }).ToList()
+            };
+            return await _catalogRepo.UpdateBook(id, updatedBook);
+        }
     }
 }

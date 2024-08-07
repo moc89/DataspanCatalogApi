@@ -209,5 +209,104 @@ namespace Dataspan.Api.Repository.Repositories
 
             return response;
         }
+
+        public async Task<Response> UpdateAuthor(int id, Author author)
+        {
+            Response response = new Response();
+
+            try
+            {
+                // Check if the author exists
+                var existingAuthor = await _context.Authors.FirstOrDefaultAsync(e => e.Id == id);
+                if (existingAuthor == null)
+                {
+                    response.ErrorCode = 102;
+                    response.AdditionalMessage = "Author not found";
+                    response.Status = 0;
+                    return response;
+                }
+
+                // Update the author's properties
+                existingAuthor.Name = author.Name;
+                existingAuthor.Surname = author.Surname;
+                existingAuthor.BirthYear = author.BirthYear;
+
+                _context.Authors.Update(existingAuthor);
+                await _context.SaveChangesAsync();
+
+                response.Status = 1;
+                response.AdditionalMessage = "Author updated successfully";
+            }
+            catch (System.Exception ex)
+            {
+                response.ErrorCode = 1;
+                response.AdditionalMessage = ex.Message;
+                response.Status = 0;
+            }
+
+            return response;
+        }
+
+        public async Task<Response> UpdateBook(int id, Book book)
+        {
+            Response response = new Response();
+
+            try
+            {
+                // Check if the book exists
+                var existingBook = await _context.Books
+                                                 .Include(b => b.BookAuthors)
+                                                 .FirstOrDefaultAsync(e => e.Id == id);
+                if (existingBook == null)
+                {
+                    response.ErrorCode = 102;
+                    response.AdditionalMessage = "Book not found";
+                    response.Status = 0;
+                    return response;
+                }
+
+                // Check if all author IDs exist
+                List<int> authorIds = book.BookAuthors.Select(x => x.AuthorId).ToList();
+                var authors = await _context.Authors.Where(a => authorIds.Contains(a.Id)).ToListAsync();
+                if (authors.Count != authorIds.Count)
+                {
+                    response.ErrorCode = 4;
+                    response.AdditionalMessage = "One or more authors not found";
+                    response.Status = 0;
+                    return response;
+                }
+
+                // Update the book's properties
+                existingBook.Title = book.Title;
+                existingBook.Publisher = book.Publisher;
+                existingBook.PublishedDate = book.PublishedDate;
+                existingBook.Edition = book.Edition;
+
+                // Update the book authors
+                existingBook.BookAuthors.Clear();
+                foreach (var bookAuthor in book.BookAuthors)
+                {
+                    existingBook.BookAuthors.Add(new BookAuthor
+                    {
+                        BookId = existingBook.Id,
+                        AuthorId = bookAuthor.AuthorId
+                    });
+                }
+
+                _context.Books.Update(existingBook);
+                await _context.SaveChangesAsync();
+
+                response.Status = 1;
+                response.AdditionalMessage = "Book updated successfully";
+            }
+            catch (System.Exception ex)
+            {
+                response.ErrorCode = 1;
+                response.AdditionalMessage = ex.Message;
+                response.Status = 0;
+            }
+
+            return response;
+        }
     }
 }

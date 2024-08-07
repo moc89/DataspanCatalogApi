@@ -38,11 +38,16 @@ namespace DataspanCatalog.Controllers
             return await this._authorServices.GetAuthor(id);
         }
 
-
         [HttpDelete("{id}")]
         public async Task<Response> Delete(int id)
         {
             return await this._authorServices.DeleteAuthor(id);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<Response> Update(int id, [FromBody] AuthorDto author)
+        {
+            return await this._authorServices.UpdateAuthor(id, author);
         }
     }
 }

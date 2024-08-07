@@ -48,5 +48,17 @@ namespace Dataspan.Api.Application.Services
         {
             return await _catalogRepo.DeleteAuthor(id);
         }
+
+        public async Task<Response> UpdateAuthor(int id, AuthorDto author)
+        {
+            Author updateAuthor = new Author
+            {
+                Name = author.Name,
+                Surname = author.Surname,
+                BirthYear = author.BirthYear
+            };
+
+            return await _catalogRepo.UpdateAuthor(id, updateAuthor);
+        }
     }
 }
