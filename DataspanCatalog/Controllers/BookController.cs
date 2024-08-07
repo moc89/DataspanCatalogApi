@@ -1,6 +1,7 @@
 ﻿using Dataspan.Api.Application.Dtos;
 using Dataspan.Api.Application.Interfaces;
 using Dataspan.Api.Application.Services;
+using Dataspan.Api.Messaging.MessagingObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -23,7 +24,7 @@ namespace DataspanCatalog.Controllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<BookDto>> Get()
+        public async Task<GetBooksResponse> Get()
         {
             return await this._bookServices.GetBooks();
 
@@ -32,14 +33,20 @@ namespace DataspanCatalog.Controllers
         [HttpPost("{authorId}")]
         public async Task<ActionResult> Post(int authorId, [FromBody] BookDto book)
         {
-            BookDto result = await this._bookServices.AddBook(authorId, book);
-            return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
+            Response result = await this._bookServices.AddBook(authorId, book);
+            return CreatedAtAction(nameof(Get), result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookDto>> Get(int id)
+        public async Task<GetBookResponse> Get(int id)
         {
             return await this._bookServices.GetBook(id);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<Response> Delete(int id)
+        {
+            return await this._bookServices.DeleteBook(id);
         }
     }
 }

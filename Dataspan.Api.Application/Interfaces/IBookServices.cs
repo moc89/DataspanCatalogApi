@@ -1,4 +1,5 @@
 ﻿using Dataspan.Api.Application.Dtos;
+using Dataspan.Api.Messaging.MessagingObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,9 @@ namespace Dataspan.Api.Application.Interfaces
 {
     public interface IBookServices
     {
-        Task<List<BookDto>> GetBooks();
-        Task<BookDto> AddBook(int authorId, BookDto book);
-        Task<BookDto> GetBook(int id);   
+        Task<GetBooksResponse> GetBooks();
+        Task<Response> AddBook(int authorId, BookDto book);
+        Task<GetBookResponse> GetBook(int id);
+        Task<Response> DeleteBook(int id);
     }
 }

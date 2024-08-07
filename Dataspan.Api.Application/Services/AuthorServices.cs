@@ -13,7 +13,6 @@ namespace Dataspan.Api.Application.Services
 {
     public class AuthorServices : IAuthorServices
     {
-        private static readonly List<Author> Authors = new List<Author>();
 
         private readonly ICatalogRepo _catalogRepo;
 
@@ -24,9 +23,7 @@ namespace Dataspan.Api.Application.Services
 
         async Task<GetAuthorsResponse> IAuthorServices.GetAuthors()
         {
-            GetAuthorsResponse response = await _catalogRepo.GetAuthors();
-
-            return response;
+            return await _catalogRepo.GetAuthors();
         }
 
         async Task<Response> IAuthorServices.AddAuthor(AuthorDto author)
@@ -51,7 +48,6 @@ namespace Dataspan.Api.Application.Services
         async Task<Response> IAuthorServices.DeleteAuthor(int id)
         {
             return await _catalogRepo.DeleteAuthor(id);
-
         }
     }
 }

@@ -98,5 +98,85 @@ namespace Dataspan.Api.Repository.Repositories
             return new Response();
         }
 
+        public async Task<Response> CreateBook(int authorId, Book book)
+        {
+            Response response = new Response();
+
+            try
+            {
+                _context.Books.Add(book);
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception ex)
+            {
+                response.ErrorCode = 1;
+                response.AdditionalMessage = ex.Message;
+                response.Status = 0;
+            }
+
+            return response;
+        }
+
+        public async Task<GetBooksResponse> GetBooks()
+        {
+            GetBooksResponse response = new GetBooksResponse();
+
+            try
+            {
+                var query = await _context.Books.ToListAsync();
+
+                response.book = query;
+            }
+            catch (System.Exception ex)
+            {
+                // TODO: Error Log DB will be implemented.
+                response.ErrorCode = 2;
+                response.AdditionalMessage = ex.Message;
+                response.Status = 0;
+            }
+
+            return response;
+        }
+
+        public async Task<Response> DeleteBook(int id)
+        {
+            if (id <= 0)
+            {
+                return new Response() { AdditionalMessage = "Book Id cannot be negative", ErrorCode = 101 };
+            }
+
+            Book book = await _context.Books.FirstOrDefaultAsync(e => e.Id == id);
+
+            if (book == null)
+            {
+                return new Response() { AdditionalMessage = "Book not found", ErrorCode = 102 };
+            }
+
+            _context.Remove(book);
+            await _context.SaveChangesAsync();
+
+            return new Response();
+        }
+
+        public async Task<GetBookResponse> GetBook(int bookId)
+        {
+            GetBookResponse response = new GetBookResponse();
+
+            try
+            {
+                var query = await _context.Books.FirstOrDefaultAsync(e => e.Id == bookId);
+
+                response.book = query;
+            }
+            catch (System.Exception ex)
+            {
+                // TODO: Error Log DB will be implemented.
+                response.ErrorCode = 3;
+                response.AdditionalMessage = ex.Message;
+                response.Status = 0;
+            }
+
+            return response;
+        }
     }
 }

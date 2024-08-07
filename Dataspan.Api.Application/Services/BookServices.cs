@@ -1,5 +1,8 @@
 ﻿using Dataspan.Api.Application.Dtos;
 using Dataspan.Api.Application.Interfaces;
+using Dataspan.Api.Messaging.Entities;
+using Dataspan.Api.Messaging.MessagingObjects;
+using Dataspan.Api.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +13,40 @@ namespace Dataspan.Api.Application.Services
 {
     public class BookServices : IBookServices
     {
-        private static readonly List<BookDto> Books = new List<BookDto>();
+        private readonly ICatalogRepo _catalogRepo;
 
-        Task<List<BookDto>> IBookServices.GetBooks()
+        public BookServices(ICatalogRepo catalogRepo)
         {
-            return Task.FromResult(Books);
+            _catalogRepo = catalogRepo;
         }
 
-        Task<BookDto> IBookServices.AddBook(int authorId, BookDto book)
+        async Task<GetBooksResponse> IBookServices.GetBooks()
         {
-            book.Id = Books.Count + 1;
-            book.Authors = authorId;
-            Books.Add(book);
-            return Task.FromResult(book);
+            return await _catalogRepo.GetBooks();
         }
-        Task<BookDto> IBookServices.GetBook(int id)
+
+        async Task<Response> IBookServices.AddBook(int authorId, BookDto book)
         {
-            return Task.FromResult(Books.FirstOrDefault(a => a.Id == id));
+            Book newBook = new Book
+            {
+                Title = book.Title,
+                Publisher = book.Publisher,
+                PublishedDate = book.PublishedDate,
+                Authors = authorId,
+                Edition = book.Edition,
+            };
+
+            Response response = await _catalogRepo.CreateBook(authorId, newBook);
+
+            return response;
+        }
+        async Task<GetBookResponse> IBookServices.GetBook(int id)
+        {
+            return await _catalogRepo.GetBook(id);
+        }
+        async Task<Response> IBookServices.DeleteBook(int id)
+        {
+            return await _catalogRepo.DeleteBook(id);
         }
     }
 }
