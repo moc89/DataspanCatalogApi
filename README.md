@@ -1,9 +1,9 @@
 # Catalog API
 
-This project is a Catalog API built with ASP.NET Core. 
-It provides endpoints to manage authors and books, including creating, retrieving, and deleting records. 
-The project uses an in-memory database for data storage.
-Solution architecture developed for the larger scale application as a base application.
+- This project is a Catalog API built with ASP.NET Core. 
+- It provides endpoints to manage authors and books, including creating, retrieving, and deleting records. 
+- The project uses an in-memory database for data storage.
+- Solution architecture developed for the larger scale application as a base application.
 
 ## Table of Contents
 
