@@ -11,7 +11,7 @@ namespace Dataspan.Api.Application.Interfaces
     public interface IBookServices
     {
         Task<GetBooksResponse> GetBooks();
-        Task<Response> AddBook(int authorId, BookDto book);
+        Task<Response> AddBook(BookDto book);
         Task<GetBookResponse> GetBook(int id);
         Task<Response> DeleteBook(int id);
     }

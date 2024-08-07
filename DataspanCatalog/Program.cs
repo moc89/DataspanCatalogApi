@@ -21,6 +21,13 @@ builder.Services.AddScoped<ICatalogRepo, CatalogRepo>();
 builder.Services.AddDbContext<CatalogContext>(options =>
     options.UseInMemoryDatabase("CatalogDB"));
 
+builder.Services.AddControllers()
+           .AddJsonOptions(options =>
+           {
+               options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+
+           });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

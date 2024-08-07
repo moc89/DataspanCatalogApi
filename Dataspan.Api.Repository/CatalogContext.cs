@@ -14,7 +14,6 @@ namespace Dataspan.Api.Repository
         protected CatalogContext()
         {
         }
-
         public CatalogContext(DbContextOptions<CatalogContext> options) : base(options)
         {
 
@@ -24,34 +23,43 @@ namespace Dataspan.Api.Repository
         {
             optionsBuilder.UseInMemoryDatabase("CatalogDB");
         }
-
         public virtual DbSet<Author> Authors { get; set; }
-
         public virtual DbSet<Book> Books { get; set; }
+        public DbSet<BookAuthor> BookAuthors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             modelBuilder.Entity<Author>(entity =>
             {
-                entity.ToTable("Authors"); 
-                entity.HasIndex(e => e.Id, "PK_AuthorId").IsUnique();
-                entity.Property(e => e.Id).ValueGeneratedOnAdd().HasMaxLength(250);
+                entity.ToTable("Authors");
+                entity.HasKey(e => e.Id);
                 entity.Property(e => e.Surname).HasMaxLength(250);
                 entity.Property(e => e.Name).HasMaxLength(250);
-                entity.Property(e => e.BirthYear);
+                entity.Property(e => e.BirthYear).HasColumnType("int");
             });
 
             modelBuilder.Entity<Book>(entity =>
             {
-                entity.ToTable("Books"); 
-                entity.HasIndex(e => e.Id, "PK_BookId").IsUnique();
-                entity.Property(e => e.Id).ValueGeneratedOnAdd().HasMaxLength(250);
+                entity.ToTable("Books");
+                entity.HasKey(e => e.Id);
                 entity.Property(e => e.Title).HasMaxLength(250);
                 entity.Property(e => e.Publisher).HasMaxLength(250);
-                entity.Property(e => e.PublishedDate).HasMaxLength(250);
-                entity.Property(e => e.Authors).HasMaxLength(250);
                 entity.Property(e => e.Edition).HasMaxLength(250);
+                entity.Property(e => e.PublishedDate);
+            });
+
+            modelBuilder.Entity<BookAuthor>(entity =>
+            {
+                entity.HasKey(e => new { e.BookId, e.AuthorId });
+
+                entity.HasOne(e => e.Book)
+                      .WithMany(b => b.BookAuthors)
+                      .HasForeignKey(e => e.BookId);
+
+                entity.HasOne(e => e.Author)
+                      .WithMany(a => a.BookAuthors)
+                      .HasForeignKey(e => e.AuthorId);
             });
         }
 

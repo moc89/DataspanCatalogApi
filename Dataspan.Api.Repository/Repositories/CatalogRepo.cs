@@ -17,6 +17,7 @@ namespace Dataspan.Api.Repository.Repositories
         {
             _context = context;
         }
+
         public async Task<Response> CreateAuthor(Author author)
         {
             Response response = new Response();
@@ -85,11 +86,24 @@ namespace Dataspan.Api.Repository.Repositories
                 return new Response() { AdditionalMessage = "Author Id cannot be negative", ErrorCode = 101 };
             }
 
-            Author author = await _context.Authors.FirstOrDefaultAsync(e => e.Id == id);
+            Author author = await _context.Authors
+                                          .Include(e=>e.BookAuthors)
+                                          .ThenInclude(e => e.Book)
+                                          .FirstOrDefaultAsync(e => e.Id == id);
 
             if (author == null)
             {
                 return new Response() { AdditionalMessage = "Author not found", ErrorCode = 102 };
+            }
+
+            if (author.BookAuthors.Count > 0)
+            {
+                return new Response() 
+                { 
+                    AdditionalMessage = "Removal of an author is not allowed when at least one book is related to it", 
+                    ErrorCode = 102,
+                    Status = 0
+                };
             }
 
             _context.Remove(author);
@@ -98,12 +112,31 @@ namespace Dataspan.Api.Repository.Repositories
             return new Response();
         }
 
-        public async Task<Response> CreateBook(int authorId, Book book)
+        public async Task<Response> CreateBook(Book book, List<int> authorIds)
         {
             Response response = new Response();
 
             try
             {
+                if(authorIds == null || authorIds.Count == 0)
+                {
+                    response.ErrorCode = 3;
+                    response.AdditionalMessage = "Book must have at least one author";
+                    response.Status = 0;
+                    return response;
+                }
+
+                // Check if all author IDs exist
+                var authors = await _context.Authors.Where(a => authorIds.Contains(a.Id)).ToListAsync();
+                if (authors.Count != authorIds.Count)
+                {
+                    response.ErrorCode = 4;
+                    response.AdditionalMessage = "One or more authors not found";
+                    response.Status = 0;
+                    return response;
+                }
+
+
                 _context.Books.Add(book);
                 await _context.SaveChangesAsync();
             }
@@ -123,9 +156,12 @@ namespace Dataspan.Api.Repository.Repositories
 
             try
             {
-                var query = await _context.Books.ToListAsync();
+                var query = await _context.Books
+                                  .Include(b => b.BookAuthors)
+                                  .ThenInclude(ba => ba.Author)
+                                  .ToListAsync();
 
-                response.book = query;
+                response.book = query ?? new List<Book>();
             }
             catch (System.Exception ex)
             {
@@ -164,7 +200,10 @@ namespace Dataspan.Api.Repository.Repositories
 
             try
             {
-                var query = await _context.Books.FirstOrDefaultAsync(e => e.Id == bookId);
+                var query = await _context.Books
+                                  .Include(b => b.BookAuthors)
+                                  .ThenInclude(ba => ba.Author)
+                                  .FirstOrDefaultAsync(e => e.Id == bookId);
 
                 response.book = query;
             }

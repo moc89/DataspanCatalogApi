@@ -34,9 +34,8 @@ namespace Dataspan.Api.Application.Services
                 Surname = author.Surname,
                 BirthYear = author.BirthYear
             };
-            Response response = await _catalogRepo.CreateAuthor(newAuthor);
 
-            return response;
+            return await _catalogRepo.CreateAuthor(newAuthor);
         }
 
         async Task<GetAuthorResponse> IAuthorServices.GetAuthor(int id)

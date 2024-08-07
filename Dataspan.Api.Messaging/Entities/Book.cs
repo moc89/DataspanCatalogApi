@@ -10,9 +10,12 @@ namespace Dataspan.Api.Messaging.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public int Authors { get; set; } 
         public string Publisher { get; set; }
         public string Edition { get; set; }
         public DateTime PublishedDate { get; set; }
+
+        // Navigation property for the many-to-many relationship with Author
+        public List<BookAuthor> BookAuthors { get; set; }
+
     }
 }

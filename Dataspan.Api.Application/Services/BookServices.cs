@@ -25,20 +25,18 @@ namespace Dataspan.Api.Application.Services
             return await _catalogRepo.GetBooks();
         }
 
-        async Task<Response> IBookServices.AddBook(int authorId, BookDto book)
+        async Task<Response> IBookServices.AddBook(BookDto book)
         {
             Book newBook = new Book
             {
                 Title = book.Title,
                 Publisher = book.Publisher,
                 PublishedDate = book.PublishedDate,
-                Authors = authorId,
                 Edition = book.Edition,
+                BookAuthors = book.AuthorIds.Select(x => new BookAuthor { AuthorId = x }).ToList()
             };
 
-            Response response = await _catalogRepo.CreateBook(authorId, newBook);
-
-            return response;
+            return await _catalogRepo.CreateBook(newBook, book.AuthorIds);
         }
         async Task<GetBookResponse> IBookServices.GetBook(int id)
         {

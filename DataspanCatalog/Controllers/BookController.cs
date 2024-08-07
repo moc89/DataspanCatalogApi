@@ -30,10 +30,10 @@ namespace DataspanCatalog.Controllers
 
         }
 
-        [HttpPost("{authorId}")]
-        public async Task<ActionResult> Post(int authorId, [FromBody] BookDto book)
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] BookDto book)
         {
-            Response result = await this._bookServices.AddBook(authorId, book);
+            Response result = await this._bookServices.AddBook(book);
             return CreatedAtAction(nameof(Get), result);
         }
 

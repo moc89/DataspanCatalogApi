@@ -12,5 +12,9 @@ namespace Dataspan.Api.Messaging.Entities
         public string Name { get; set; }
         public string Surname { get; set; }
         public int BirthYear { get; set; }
+
+        // Navigation property for the many-to-many relationship with Book
+        public List<BookAuthor> BookAuthors { get; set; }
+
     }
 }

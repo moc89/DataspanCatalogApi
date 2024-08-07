@@ -15,7 +15,7 @@ namespace Dataspan.Api.Repository.Interfaces
         Task<Response> DeleteAuthor(int id);
         Task<GetAuthorResponse> GetAuthor(int authorId);
 
-        Task<Response> CreateBook(int authorId, Book book);
+        Task<Response> CreateBook(Book book, List<int> authorIds);
         Task<GetBooksResponse> GetBooks();
         Task<Response> DeleteBook(int id);
         Task<GetBookResponse> GetBook(int bookId);
