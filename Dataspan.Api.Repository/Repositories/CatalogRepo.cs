@@ -118,14 +118,6 @@ namespace Dataspan.Api.Repository.Repositories
 
             try
             {
-                if(authorIds == null || authorIds.Count == 0)
-                {
-                    response.ErrorCode = 3;
-                    response.AdditionalMessage = "Book must have at least one author";
-                    response.Status = 0;
-                    return response;
-                }
-
                 // Check if all author IDs exist
                 var authors = await _context.Authors.Where(a => authorIds.Contains(a.Id)).ToListAsync();
                 if (authors.Count != authorIds.Count)
