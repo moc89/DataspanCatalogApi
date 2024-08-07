@@ -68,7 +68,15 @@ dotnet build
 
 - **Create Book**
     - **POST** `/book`
-    - Request Body: `{ "title": "Book Title", "bookAuthors": [{ "authorId": 1 }] }`
+    - Request Body: `{
+                      "title": "string",
+                      "publisher": "string",
+                      "edition": "string",
+                      "publishedDate": "2024-08-07T01:56:48.093Z",
+                      "authorIds": [
+                        1
+                      ]
+                    }`
 
 - **Get Book by ID**
     - **GET** `/book/{id}`
