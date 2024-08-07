@@ -64,6 +64,13 @@ dotnet build
 - **Delete Author**
     - **DELETE** `/Author/{id}`
 
+  - **Update Author**
+    - **UPDATE** `/Author/{id}
+    - Request Body: `{
+                        "name": "string",
+                        "surname": "string",
+                        "birthYear": 0
+                      }`
 ### Books
 
 - **Create Book**
@@ -87,6 +94,15 @@ dotnet build
 - **Delete Book**
     - **DELETE** `/book/{id}`
 
+- **Update Book**
+    - **UPDATE** `/book/{id}`
+    - Request Body: `{
+                      "title": "string",
+                      "publisher": "string",
+                      "edition": "string",
+                      "publishedDate": "2024-08-07T01:56:48.093Z",
+                      "authorIds": []
+                    }`
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
